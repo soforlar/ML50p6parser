@@ -16,11 +16,11 @@ V -> "smiled" | "tell" | "were"
 
 NONTERMINALS = """
 S -> NP VP
-S -> S conj S
-NP -> NP conj NP
-VP -> VP conj VP
-NP -> N | Det N | Adj NP | NP P | P NP | NP P NP
-VP -> V | V NP | V Adv | NP V | Adv V
+S -> S Conj S
+NP -> NP Conj NP
+VP -> VP Conj VP
+NP -> N | Det NP | Adj NP | NP P | P NP | NP P NP
+VP -> V | VP NP | VP Adv | Adv VP
 Adj -> Adj Adj | Adj Conj Adj
 Adv -> Adv Adv
 
@@ -70,12 +70,12 @@ def preprocess(sentence):
     and removing any word that does not contain at least one alphabetic
     character.
     """
-    words = sentence.split()
+    words = nltk.tokenize.word_tokenize(sentence)
     for i in range(len(words)):
         words[i] = words[i].lower()
 
     for word in words:
-        if not any(c.isalpha() for c in word):
+        if not any( c.isalpha() for c in word):
             words.remove(word)
     return words
 
