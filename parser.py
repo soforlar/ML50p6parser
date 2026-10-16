@@ -87,7 +87,33 @@ def np_chunk(tree):
     whose label is "NP" that does not itself contain any other
     noun phrases as subtrees.
     """
-    return []
+    """chunks = []
+    if len(tree) == 1:
+        return chunks
+    for child in tree:
+        print(child.label())
+        if child.label()=="NP" and not any (subtree.label() == "NP" for subtree in child.subtrees()):
+            chunks.append(child)
+        else:
+            chunks.append(np_chunk(child))
+    return chunks
+    chunks = []
+    for subtree in tree.subtrees():
+        print(subtree.label())
+        if subtree.label() == "NP":
+            if not any(child.label() == "NP" for child in subtree.subtrees()):
+                chunks.append(subtree)
+                return chunks
+        chunks.append(np_chunk(subtree))
+    return chunks"""
+    #turns out I didn't know subtrees() returns all the subtrees, not just the next children subtrees, so I can easily check with descendants.
+    chunks = []
+    for subtree in tree.subtrees():
+        if subtree.label() == "NP":
+            descendants = list(subtree.subtrees())[1:]
+            if not any(descendant.label() == "NP" for descendant in descendants):
+                chunks.append(subtree)
+    return chunks
 
 
 if __name__ == "__main__":
